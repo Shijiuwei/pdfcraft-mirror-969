@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pdfcraft-mirror-969 - 官方开源镜像与技术白皮书中心</title>
+  <meta name="description" content="High availability mirror and network topology specifications for storytold/pdfcraft">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+      :root {
+        --color-primary: #2563eb;
+        --color-primary-hover: #1d4ed8;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.68;
+        color: #1e293b;
+      }
+      .markdown-body {
+        color: #1e293b;
+      }
+      .markdown-body h1 {
+        font-size: 2.25rem;
+        font-weight: 800;
+        margin-top: 1.8rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.6rem;
+        border-bottom: 2px solid #e2e8f0;
+        color: #0f172a;
+        line-height: 1.25;
+      }
+      .markdown-body h2 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-top: 1.6rem;
+        margin-bottom: 0.8rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 1px solid #f1f5f9;
+        color: #1e293b;
+      }
+      .markdown-body h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-top: 1.3rem;
+        margin-bottom: 0.6rem;
+        color: #334155;
+      }
+      .markdown-body p {
+        margin-top: 0.8rem;
+        margin-bottom: 0.8rem;
+        line-height: 1.7;
+      }
+      .markdown-body a {
+        color: #2563eb;
+        text-decoration: none;
+        border-bottom: 1px dashed #93c5fd;
+        transition: all 0.2s ease;
+      }
+      .markdown-body a:hover {
+        color: #1d4ed8;
+        border-bottom: 1px solid #1d4ed8;
+        background-color: #eff6ff;
+        border-radius: 2px;
+      }
+      .markdown-body ul, .markdown-body ol {
+        padding-left: 1.5rem;
+        margin-top: 0.6rem;
+        margin-bottom: 0.6rem;
+      }
+      .markdown-body ul {
+        list-style-type: disc;
+      }
+      .markdown-body ol {
+        list-style-type: decimal;
+      }
+      .markdown-body li {
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+      }
+      .markdown-body pre {
+        background-color: #0f172a;
+        color: #e2e8f0;
+        padding: 1rem 1.2rem;
+        border-radius: 0.75rem;
+        overflow-x: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 0.875rem;
+        margin: 1rem 0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+      .markdown-body code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 0.875em;
+        padding: 0.15rem 0.35rem;
+        background-color: #f1f5f9;
+        color: #0f172a;
+        border-radius: 0.35rem;
+        border: 1px solid #e2e8f0;
+      }
+      .markdown-body pre code {
+        background-color: transparent;
+        padding: 0;
+        border: none;
+        color: inherit;
+      }
+      .markdown-body blockquote {
+        margin: 1rem 0;
+        padding: 0.75rem 1.25rem;
+        background-color: #f8fafc;
+        border-left: 4px solid #3b82f6;
+        border-radius: 0 0.5rem 0.5rem 0;
+        color: #475569;
+      }
+      .markdown-body table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.2rem 0;
+        display: block;
+        overflow-x: auto;
+      }
+      .markdown-body th, .markdown-body td {
+        border: 1px solid #cbd5e1;
+        padding: 0.6rem 1rem;
+        text-align: left;
+      }
+      .markdown-body th {
+        background-color: #f1f5f9;
+        font-weight: 600;
+      }
+      .markdown-body tr:nth-child(even) {
+        background-color: #f8fafc;
+      }
+      .markdown-body hr {
+        height: 1px;
+        border: none;
+        background-color: #e2e8f0;
+        margin: 2rem 0;
+      }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased">
+  <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="./index.html" class="flex items-center gap-2 group">
+        <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-bold text-sm shadow-sm group-hover:scale-105 transition-transform ">LM</span>
+        <span class="font-bold text-slate-900 tracking-tight text-lg group-hover:text-blue-600 transition-colors ">pdfcraft-mirror-969</span>
+      </a>
+      <span class="hidden md:inline-block text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-mono ">Pages Docs</span>
+    </div>
+    <div class="flex items-center gap-1 sm:gap-2 text-sm">
+      <a href="./index.html" class="px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 text-blue-600 bg-blue-50 font-semibold ">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span>首页 (README)</span>
+      </a>
+      <a href="./docs/index.html" class="px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 text-slate-600 hover:text-blue-600 hover:bg-slate-50 font-medium ">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <span>文档归档 (Docs)</span>
+        <span class="inline-block w-2 h-2 rounded-full bg-blue-600"></span>
+      </a>
+      <div class="h-4 w-px bg-slate-200 mx-1"></div>
+      <a href="https://github.com/shijiuwei/pdfcraft-mirror-969" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-1.5 ">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        <span class="hidden sm:inline">GitHub</span>
+      </a>
+      <a href="https://github.com/shijiuwei/pdfcraft-mirror-969/wiki" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-1.5 ">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span class="hidden sm:inline">Wiki</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+  <!-- Hero Header -->
+  <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white py-12 px-4 sm:px-6 shadow-md border-b border-slate-800">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="px-2.5 py-0.5 bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded-full text-xs font-semibold">✓ 官方高可用开源镜像</span>
+        <span class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 rounded-full text-xs font-semibold">● 72h 存活率指标 99.8%</span>
+        <span class="px-2.5 py-0.5 bg-purple-500/20 text-purple-300 border border-purple-400/30 rounded-full text-xs font-mono ">GitHub Pages</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4">pdfcraft-mirror-969</h1>
+      <p class="text-slate-300 text-base sm:text-lg max-w-3xl leading-relaxed mb-6">High availability mirror and network topology specifications for storytold/pdfcraft</p>
+      
+      <!-- 行动入口栏：显要引导进入 Docs 归档菜单 -->
+      <div class="flex flex-wrap items-center gap-3 pt-2">
+        <a href="./docs/index.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] ">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span>进入文档归档菜单 (Docs Catalog) &rarr;</span>
+        </a>
+        <a href="#readme-content" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-sm border border-white/20 backdrop-blur transition-colors ">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+          <span>查阅项目 README 正文</span>
+        </a>
+        <a href="https://github.com/shijiuwei/pdfcraft-mirror-969" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-slate-300 hover:text-white text-xs transition-colors ">
+          <span>访问 GitHub 源码库</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主体区域：两栏布局（主栏：改造后 README；侧栏：Docs 归档菜单预览与外链速查） -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-10 flex-1 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- 主内容区：展示改造后的 README.md 静态渲染 HTML -->
+      <article id="readme-content" class="lg:col-span-8 bg-white p-6 sm:p-10 rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
+          <div class="flex items-center gap-2 text-xs text-slate-500 font-mono ">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            <span>README.md (已注入高权重拓扑网络)</span>
+          </div>
+          <a href="./docs/index.html" class="text-xs text-blue-600 hover:underline flex items-center gap-1 font-medium ">
+            <span>浏览全部 20 篇归档文档</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+        <div class="markdown-body">
+          <p align="left">
+  <a href="https://shijiuwei.github.io/pdfcraft-mirror-969/"><img src="https://img.shields.io/badge/GitHub_Pages-在线文档中心-2563eb.svg" alt="GitHub Pages"></a>
+  <a href="https://shijiuwei.github.io/pdfcraft-mirror-969/docs/"><img src="https://img.shields.io/badge/Docs_Archive-文档归档菜单-10b981.svg" alt="Docs Archive"></a>
+</p>
+<blockquote>
+<p>🌐 <strong>官方在线文档与静态镜像中心 (GitHub Pages)</strong>：<a href="https://shijiuwei.github.io/pdfcraft-mirror-969/">https://shijiuwei.github.io/pdfcraft-mirror-969/</a><br />
+📚 <strong>技术规约与文档归档菜单 (Docs Catalog)</strong>：<a href="https://shijiuwei.github.io/pdfcraft-mirror-969/docs/">https://shijiuwei.github.io/pdfcraft-mirror-969/docs/</a></p>
+</blockquote>
+<p align="center">
+  <a href="https://getartcraft.com/">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="docs/brand/artcraft-logo-white.svg">
+      <img alt="ArtCraft" src="docs/brand/artcraft-logo.svg" width="200">
+    </picture>
+  </a>
+</p>
+<h1 align="center">PdfCraft</h1>
+<p align="center">
+  <b>The PDF workbench; an open-source, clean-room reimplementation of Adobe Acrobat, rebuilt in pure Rust.</b><br>
+  Read, organize, combine, split and secure PDFs in a fast, native app, written in Rust from the ground up.<br>
+  macOS · Windows · Linux · FreeBSD · the web
+</p>
+<p align="center">
+  <img alt="License: MIT OR Apache-2.0" src="https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-12a58a">
+  <img alt="Written in Rust" src="https://img.shields.io/badge/written%20in-Rust-0a7563">
+  <img alt="Platforms: macOS, Windows, Linux, FreeBSD, web" src="https://img.shields.io/badge/runs%20on-macOS%20%C2%B7%20Windows%20%C2%B7%20Linux%20%C2%B7%20FreeBSD%20%C2%B7%20web-12a58a">
+  <img alt="No account, no telemetry" src="https://img.shields.io/badge/no%20account-no%20telemetry-0a7563">
+</p>
+<p align="center">
+  <a href="https://rorh.yx-sf.com/kuangjia/engagement-78714367.html"><img alt="Join the ArtCraft community on Discord" src="https://img.shields.io/badge/Join%20us%20on%20Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" height="40"></a>
+</p>
+<p align="center">
+  <a href="https://ndas.yx-sf.com/youhua/notification-61800910.html"><b>PdfCraft on getartcraft.com</b></a> ·
+  <a href="https://rlty.yx-sf.com/yunsuan/client-13612573.html">ArtCraft</a> ·
+  <a href="https://ngsb.wtpuscm.cn/chuangxin/prospect-038554.html">All Crafting Apps</a>
+</p>
+<br>
+<p align="center">
+  <img src="docs/images/pdfcraft-viewer.png" alt="PdfCraft with the PdfCraft Showcase cover page open, the All tools panel on the left and 20 threaded comments on the right" width="100%">
+  <br>
+  <sub>The PdfCraft Showcase, a 13-page specimen PDF, open with the All tools panel and threaded comments.</sub>
+</p>
+<blockquote>
+<p>[!NOTE]
+<strong>ArtCraft is a community of artists from all walks of life.</strong> Digital, generative, music,
+games — if you make things, you're one of us. <strong><a href="https://tnzj.yx-sf.com/gongsi/terms-10982695.html">Come say hi on Discord</a>.</strong></p>
+</blockquote>
+<p align="center">
+  <a href="#highlights">Highlights</a> ·
+  <a href="#read-anything-beautifully">Read</a> ·
+  <a href="#find-it-select-it-copy-it">Find</a> ·
+  <a href="#organize-pages-like-cards-on-a-table">Organize</a> ·
+  <a href="#combine-and-split-without-losing-a-thing">Combine &amp; split</a> ·
+  <a href="#open-protected-documents-and-respect-their-rules">Protect</a> ·
+  <a href="#comments-forms-layers-and-attachments">Forms &amp; layers</a> ·
+  <a href="#runs-everywhere-stays-yours">Everywhere</a> ·
+  <a href="#built-for-agents-too">Agents</a> ·
+  <a href="#how-its-built">How it's built</a> ·
+  <a href="#get-started">Get started</a> ·
+  <a href="#whats-next">What's next</a> ·
+  <a href="#downloads">Downloads</a> ·
+  <a href="#the-crafting-apps">Crafting Apps</a>
+</p>
+<hr />
+<h2>Community</h2>
+<p>PdfCraft is part of <a href="https://zbmb.ai-hao123.com/kaifa/logo-12052128.html">ArtCraft</a>. Come say hello, get help and follow development:</p>
+<ul>
+<li><strong>Discord: <a href="https://sjor.tcti.cn/baogao/resource-07434228.html">discord.gg/artcraft</a></strong>. This is the fastest way to get help and share feedback. The app has a Discord button in its title bar.</li>
+<li><strong>Web page:</strong> <a href="https://xfxg.ai-hao123.com/ziyuan/education-28420954.html">getartcraft.com/apps/pdfcraft</a></li>
+<li><strong>Source:</strong> <a href="https://zbmb.ai-hao123.com/kaifa/logo-12052128.html">github.com/storytold/pdfcraft</a></li>
+</ul>
+<p>The ArtCraft name and logos in <code>docs/brand/</code> are trademarks of the ArtCraft Team and are not open source. They may be used only unmodified, and only as part of PdfCraft (see <code>docs/brand/LICENSE-brand.txt</code>). Forks and modified versions must remove them.</p>
+<h2>Highlights</h2>
+<table>
+<tr>
+<td width="33%" valign="top">
+<h3>Faithful</h3>
+<p>Real-world typography: world scripts, vertical Japanese, colour emoji, gradients, soft masks and transparency. All of it renders the way the author intended.</p>
+</td>
+<td width="33%" valign="top">
+<h3>Fearless</h3>
+<p>Every save appends your changes and leaves the original bytes untouched. Writes are atomic, undo runs deep, and nothing is lost if you close by mistake.</p>
+</td>
+<td width="33%" valign="top">
+<h3>Yours</h3>
+<p>No account, no telemetry, no cloud. It works offline and opens instantly. The engine, CLI and app are all open source.</p>
+</td>
+</tr>
+</table>
+<hr />
+<h2>Read anything, beautifully</h2>
+<p>PdfCraft renders PDFs with care for the details that make a page feel right: kerning and ligatures, right-to-left and complex scripts, vertical CJK, colour emoji, shadings, blend modes, soft masks and optional content.</p>
+<p align="center">
+  <img src="docs/images/pdfcraft-scripts.png" alt="The Scripts of the World page: Arabic, Hebrew, Devanagari, Thai, Greek, Cyrillic, Chinese, Korean, IPA, Armenian, Georgian and Tamil samples, with vertical Japanese in the right margin" width="100%">
+  <br>
+  <sub>Twelve writing systems on one page, plus vertical Japanese, at 125%.</sub>
+</p>
+<ul>
+<li><strong>Deep zoom stays sharp.</strong> Large pages render in tiles, so text stays crisp at any magnification.</li>
+<li><strong>Built to survive bad files.</strong> Every page renders in isolation and damaged documents are repaired. Across the 983-file pdf.js test corpus the result is 0 crashes.</li>
+<li><strong>Layouts for every task:</strong> continuous, single page, two-up, view rotation, full screen and a distraction-free Read mode.</li>
+<li><strong>Light and dark themes</strong>, both designed to be easy on the eyes for long sessions.</li>
+</ul>
+<table>
+<tr>
+<td width="50%"><img src="docs/images/pdfcraft-twoup.png" alt="Two facing pages in Read mode with the dark theme: the Foreword and the Setting Text chapter with its drop cap and pull quote"></td>
+<td width="50%"><img src="docs/images/pdfcraft-dark.png" alt="The dark theme showing the Code and Images chapter, a syntax-coloured listing and a fractal image, with the comments panel open"></td>
+</tr>
+<tr>
+<td align="center"><sub>Two-up Read mode, ready for long reading</sub></td>
+<td align="center"><sub>The dark theme, with the comments panel open</sub></td>
+</tr>
+</table>
+<h2>Find it, select it, copy it</h2>
+<p>Search the whole document as you type, step through matches with <kbd>⌘G</kbd>, and select text that comes out in the right reading order. That holds for columns, right-to-left runs and CJK too.</p>
+<h2>Navigate long documents</h2>
+<p>Bookmarks, page thumbnails and the document's own page labels (i, ii, 1, 2…) keep you oriented in long documents. Search bookmark titles in the Bookmarks panel to find nested entries even when their parents are collapsed. Matches keep their ancestors for context; Clear restores the unfiltered tree without changing its expansion state.</p>
+<table>
+<tr>
+<td width="50%"><img src="docs/images/pdfcraft-find.png" alt="The find bar showing match 10 of 16 for the word 'type', highlighted in the Expressive Type chapter heading"></td>
+<td width="50%"><img src="docs/images/pdfcraft-bookmarks.png" alt="The Bookmarks panel showing the nested outline of the showcase, with page labels such as Cover, i and ii, next to the Scripts of the World page"></td>
+</tr>
+<tr>
+<td align="center"><sub>Find as you type: match 10 of 16</sub></td>
+<td align="center"><sub>Nested bookmarks with the document's own page labels</sub></td>
+</tr>
+</table>
+<hr />
+<h2>Organize pages like cards on a table</h2>
+<p>Open <strong>Organize pages</strong> to see every page at once:</p>
+<ul>
+<li><strong>Select pages:</strong> click, <kbd>⌘</kbd>-click or <kbd>⇧</kbd>-click.</li>
+<li><strong>Change them:</strong> rotate, delete, insert blank pages, insert pages from another file, and move them earlier or later.</li>
+<li><strong>Undo anything:</strong> <kbd>⌘Z</kbd>, then save.</li>
+</ul>
+<p align="center">
+  <img src="docs/images/pdfcraft-organize.png" alt="The Organize pages grid with the showcase's pages as thumbnails, three of them selected, and the page toolbar above" width="100%">
+  <br>
+  <sub>Organize pages with three pages selected and the page tools in the toolbar above.</sub>
+</p>
+<table>
+<tr>
+<td width="50%" valign="top">
+<p><strong>Undo that goes the distance.</strong> Each change is one step in a history you can walk backwards and forwards. The Edit menu names the step ("Undo Rotate pages"), and undo still works after you save.</p>
+<p><strong>Saves you can trust:</strong></p>
+<ul>
+<li><em>Incremental:</em> the original bytes stay byte-for-byte intact.</li>
+<li><em>Atomic:</em> the file is written to a temporary copy, then swapped in.</li>
+<li><em>Verified:</em> independently checked with qpdf.</li>
+</ul>
+<p>When open documents exceed the window width, scroll over the tab strip with the mouse wheel or trackpad, or use its horizontal scrollbar. Opening or switching to a document brings its tab into view.</p>
+<p>Unsaved documents carry a dot on their tab, and closing or quitting asks before anything is lost. Changes are autosaved every minute. If PdfCraft ever quits unexpectedly, it offers to recover your work the next time it opens. Encrypted documents stay encrypted on disk.</p>
+</td>
+<td width="50%" valign="top"><img src="docs/images/pdfcraft-split.png" alt="The Split document dialog over the organize view, set to one page per file and reporting that it creates 13 files from 13 pages"><br><sub>Split document: one page per file makes 13 files.</sub></td>
+</tr>
+</table>
+<h2>Combine and split without losing a thing</h2>
+<p><strong>Combine files</strong> merges any number of PDFs into one. Each file gets a bookmark, with its own bookmarks nested underneath.</p>
+<p><strong>Extract</strong> copies the pages you select into a new document. <strong>Split</strong> divides a document every <em>n</em> pages, or before the pages you choose.</p>
+<p>Nothing quietly disappears along the way:</p>
+<ul>
+<li>links and named destinations are rewired to the copied pages;</li>
+<li>form fields stay interactive;</li>
+<li>layers keep their on/off defaults;</li>
+<li>attachments come along.</li>
+</ul>
+<p>Every page of a combined document renders pixel-identical to its source.</p>
+<pre><code class="language-sh">pdfcraft-cli combine report.pdf appendix.pdf --out combined.pdf
+pdfcraft-cli extract report.pdf --pages 1,3,5 --out highlights.pdf
+pdfcraft-cli split   report.pdf --every 10 --out-dir parts/
+</code></pre>
+<hr />
+<h2>Open protected documents and respect their rules</h2>
+<p>PdfCraft implements the PDF standard security handler completely:</p>
+<ul>
+<li>every revision, from 40-bit RC4 to AES-256;</li>
+<li>user and owner passwords, including Unicode passwords normalised with SASLprep;</li>
+<li>crypt filters and attachment-only encryption.</li>
+</ul>
+<p>Documents restricted by their author show a clear notice, and PdfCraft honours their permissions. Enter the owner password and the restrictions lift. Edits to encrypted documents are saved encrypted, under the same keys.</p>
+<table>
+<tr>
+<td width="50%" valign="top"><img src="docs/images/pdfcraft-properties.png" alt="The Document Properties dialog on its Description tab, with editable title, author, subject and keywords, and tabs for Security, Fonts and Advanced"><br><sub>Document Properties, Description tab</sub></td>
+<td width="50%" valign="top">
+<p><strong>Document Properties</strong> shows:</p>
+<ul>
+<li>the document's title, author, subject and keywords, which you can edit;</li>
+<li>the fonts it uses and whether each is embedded;</li>
+<li>PDF version, page size, tags, fields, layers and attachments;</li>
+<li>the full security picture: encryption method, which password opened it, and each permission.</li>
+</ul>
+</td>
+</tr>
+</table>
+<h2>Comments, forms, layers and attachments</h2>
+<table>
+<tr>
+<td width="50%"><img src="docs/images/pdfcraft-forms.png" alt="The Interactive Form page with highlighted text fields, checkboxes, radio buttons, a list and a signature field, and the Fields panel listing all 13 fields and their values"></td>
+<td width="50%"><img src="docs/images/pdfcraft-layers.png" alt="The Review and Markup page with highlights, shapes, ink and an APPROVED stamp under a DRAFT watermark, and the Layers panel with Draft watermark and Print-only notes"></td>
+</tr>
+<tr>
+<td valign="top"><b>Forms</b>: every field with its current value, field highlighting, and checkboxes, radio buttons, lists and signatures drawn the way their author designed them.</td>
+<td valign="top"><b>Layers</b>: switch optional content on and off and the page re-renders instantly. <b>Comments</b> appear as threaded conversations, and <b>attachments</b> can be opened or saved.</td>
+</tr>
+</table>
+<h2>Every tool, one keystroke away</h2>
+<p>Press <kbd>⌘K</kbd> to search every tool and command, or browse the <strong>All tools</strong> catalogue. Tools that are still in development are marked with the milestone that will ship them.</p>
+<table>
+<tr>
+<td width="50%"><img src="docs/images/pdfcraft-palette.png" alt="The command palette searching for 'page', listing Page grid, Page labels, Rotate pages, Insert pages, Delete pages, Extract pages and more, each with the tool it belongs to"></td>
+<td width="50%"><img src="docs/images/pdfcraft-tools.png" alt="The Welcome to PdfCraft home screen with recommended tools, a recent file, a privacy note, and the full tool catalogue in the side panel"></td>
+</tr>
+<tr>
+<td align="center"><sub>The <kbd>⌘K</kbd> command palette</sub></td>
+<td align="center"><sub>The home screen and the All tools catalogue</sub></td>
+</tr>
+</table>
+<hr />
+<h2>Runs everywhere, stays yours</h2>
+<ul>
+<li><strong>Native on macOS, Windows, Linux and FreeBSD</strong>, and <strong>in the browser</strong> through WebAssembly, from the same Rust codebase. Windows builds come for x64, x86 and ARM64 (Windows on ARM, no emulation); every ARM64 change is tested on ARM64 hardware in CI.</li>
+<li><strong>Private by design.</strong> Documents never leave your machine. There's no account, no telemetry and no cloud processing.</li>
+<li><strong>Engine first.</strong> Parsing, rendering and editing live in reusable library crates. The interface is one swappable layer on top.</li>
+<li><strong>Scriptable.</strong> The <code>pdfcraft-cli</code> tool (see <a href="#built-for-agents-too">Built for agents, too</a>) covers inspecting, rendering, extracting text, editing, combining, extracting pages and splitting. Robustness sweeps run on the same engine as the app.</li>
+</ul>
+<pre><code class="language-sh">pdfcraft-cli info  form.pdf                                  # structure as JSON
+pdfcraft-cli text  paper.pdf --page 3                        # reading-order text
+pdfcraft-cli edit  in.pdf --rotate 1,2:90 --delete 5 --title "Q3" --out out.pdf
+</code></pre>
+<hr />
+<h2>Built for agents, too</h2>
+<p>Every engine feature is reachable without the GUI, through one table of JSON-Schema-described tools: open, inspect, render pages to PNG, extract and find text, rotate, delete, move and insert pages, edit bookmarks and page labels, add, reply to, restyle and delete comments (highlight a phrase just by naming it), list and fill in form fields, protect with passwords, set metadata, undo and redo, save, combine, extract and split. Three front doors share it:</p>
+<ul>
+<li>
+<p><strong><code>pdfcraft-cli run</code></strong>, for one-off calls and JSON scripts:</p>
+<pre><code class="language-sh">pdfcraft-cli tools                                        # every tool and its JSON Schema
+pdfcraft-cli run text_find doc=1 query=invoice            # key=value; values parse as JSON
+pdfcraft-cli run --script review.json                     # e.g. comment_add {"type": "highlight", "find": "total due"}
+pdfcraft-cli run --script steps.json --root ./work        # several steps in one session
+</code></pre>
+<p>With <code>--root</code>, every file the script's steps read or write stays in that directory, including the PNG a step saves with <code>"out"</code> (the script itself is read from wherever you name it).</p>
+</li>
+<li>
+<p><strong>An MCP server</strong>, for AI agents such as Claude. <strong>It is opt-in:</strong> PdfCraft never starts it on its own, and it opens no network port. It runs only while an agent launches <code>pdfcraft-cli mcp</code>, talks over stdin/stdout, and stops when the agent disconnects. To enable it, add it to your agent's MCP configuration:</p>
+<pre><code class="language-json">{ "mcpServers": { "pdfcraft": { "command": "pdfcraft-cli", "args": ["mcp", "--root", "/path/to/your/pdfs"] } } }
+</code></pre>
+<p><code>--compact</code> shrinks the tool list the agent has to read: <code>tools/list</code> returns about ten core tools plus <code>tool_search</code> and <code>tool_call</code>, which find and run every other tool, so the list costs far fewer tokens. Every tool still works.</p>
+<p><code>--root</code> confines every file the agent can read or write to one directory. Builds that should not include the server at all can use <code>cargo build -p pdfcraft-cli --no-default-features</code>.</p>
+</li>
+<li>
+<p><strong>The Rust API</strong> (<code>pdfcraft_automation::Automation::call</code>), for embedding.</p>
+</li>
+</ul>
+<p>Edits stay in memory, undoable, until <code>doc_save</code>. Saving to the same file appends an incremental update, so the original bytes are preserved, and the write is atomic. Unsaved changes are never discarded silently.</p>
+<h3>Driving the app itself</h3>
+<p>Start the desktop app with <code>pdfcraft --control ~/.pdfcraft-control.json</code> and an agent can see and operate the real interface: the widget tree with labels and positions (from the accessibility tree), clicks, typing, keys, commands, view options and screenshots. This is also off by default. It listens only on loopback, and every connection must present the random token written to that file, which only you can read.</p>
+<p>Keep the control file in a folder only you can write, not a shared one such as <code>/tmp</code>: another user could create the file there first and receive your commands. <code>pdfcraft-cli ui</code> refuses a control file that is a symbolic link, and on macOS, Linux and FreeBSD one that another user owns or can read or write. The app doesn't start if it can't write the file.</p>
+<pre><code class="language-sh">pdfcraft-cli ui --control ~/.pdfcraft-control.json inspect query=rotate      # find widgets
+pdfcraft-cli ui --control ~/.pdfcraft-control.json click label="Organize pages"
+pdfcraft-cli ui --control ~/.pdfcraft-control.json key key=K modifiers='["command"]'
+pdfcraft-cli ui --control ~/.pdfcraft-control.json command id=comment.square   # pick a tool, then draw:
+pdfcraft-cli ui --control ~/.pdfcraft-control.json drag from='[400,300]' to='[600,420]'
+pdfcraft-cli ui --control ~/.pdfcraft-control.json screenshot --out window.png
+pdfcraft-cli ui --control ~/.pdfcraft-control.json resize width=1200 height=800
+pdfcraft-cli ui --control ~/.pdfcraft-control.json focus label="Read"
+pdfcraft-cli ui --control ~/.pdfcraft-control.json inspect focused=true
+pdfcraft-cli ui --control ~/.pdfcraft-control.json quit
+</code></pre>
+<p><code>ui.dock</code> arranges the <code>tools</code> and <code>inspector</code> panels; <code>canvas</code> is the protected document view.
+Each per-panel request requires a <code>panel</code> ID and an <code>operation</code>: <code>open</code>, <code>close</code>,
+<code>activate</code>, <code>float</code> with <code>rect: [x, y, width, height]</code>, or <code>move</code> with <code>target</code> and
+<code>zone: center|left|right|top|bottom</code>. For example,
+<code>{"operation":"float","panel":"tools","rect":[100,100,320,440]}</code> floats Tools.
+<code>ui.dock.reset</code> restores the default
+arrangement. The control channel accepts these methods directly; <code>ui.command</code> also accepts
+<code>{"id":"ui.dock","params":{...}}</code>. Saved preferences retain groups, active tabs, visibility
+and floating geometry. Invalid requests return an error without changing the document or layout.</p>
+<p><code>resize</code> requests a native inner-window size in logical points (each dimension must be between 320 and 8192); the window manager may constrain it. <code>state</code> reports the observed <code>window.width</code>, <code>window.height</code> and <code>window.pixels_per_point</code>. <code>focus</code> accepts exactly one widget <code>id</code> or unique enabled, focusable <code>label</code>; subsequent <code>key</code> requests traverse or activate the actual widgets. <code>inspect</code> includes focusability and accepts a <code>focused</code> filter. <code>quit</code> takes no parameters: clean documents exit normally, while unsaved edits or typing open the existing Save/Don't save/Cancel prompt and return <code>quitting: false, needs_confirmation: true</code>. It never silently discards work. Window resizing and application quit are native-only.</p>
+<hr />
+<h2>How it's built</h2>
+<p>PdfCraft is a Cargo workspace of focused crates, layered so the core never depends on the UI:</p>
+<table><thead><tr><th>Crate</th><th>What it does</th></tr></thead><tbody>
+<tr><td><code>pdfcraft-filters</code></td><td>Every PDF stream filter (Flate, LZW, ASCII85, RunLength, predictors), encode and decode, property-tested</td></tr>
+<tr><td><code>pdfcraft-crypt</code></td><td>The standard security handler: RC4, AES-128/256, revisions 2–6, permissions</td></tr>
+<tr><td><code>pdfcraft-cos</code></td><td>The PDF object layer: tolerant parsing, repair, copy-on-write edits, incremental and full writing</td></tr>
+<tr><td><code>pdfcraft-organize</code></td><td>Page operations, combine / extract / split, bookmarks, page labels, document information</td></tr>
+<tr><td><code>pdfcraft-fonts</code></td><td>Font metrics and encodings for generated appearances</td></tr>
+<tr><td><code>pdfcraft-annot</code></td><td>Comments: builders and appearance streams for notes, text markup, shapes, ink and text boxes; replies, status, edits</td></tr>
+<tr><td><code>pdfcraft-forms</code></td><td>Interactive forms: the field model, filling with regenerated appearances, Clear form</td></tr>
+<tr><td><code>pdfcraft-render</code></td><td>Rendering, inspection and text extraction with reading order</td></tr>
+<tr><td><code>pdfcraft-engine</code></td><td>The façade every frontend uses: sessions, edits, undo, saving, the tool catalogue</td></tr>
+<tr><td><code>pdfcraft-automation</code></td><td>Agent control: the headless tool table, <code>pdfcraft-cli run</code>, and the opt-in MCP server</td></tr>
+<tr><td><code>pdfcraft-ui-egui</code></td><td>The desktop and web interface</td></tr>
+</tbody></table>
+<p><strong>Quality gates.</strong> Every change passes the same automated checks:</p>
+<ul>
+<li>formatting, and Clippy with warnings as errors;</li>
+<li>200+ unit, property and UI tests;</li>
+<li>crate-layering rules and a WebAssembly build check;</li>
+<li>an asset-licence audit.</li>
+</ul>
+<p>On top of those, two corpus sweeps run over real-world files:</p>
+<ul>
+<li><strong>Opening and rendering:</strong> of the 983 pdf.js test files, 963 open and render cleanly, with 0 crashes.</li>
+<li><strong>Open, edit and save round trips:</strong> 958 succeed.</li>
+</ul>
+<p>The output is verified with independent tools: hayro, qpdf and poppler.</p>
+<p>PdfCraft is a clean-room implementation. Its behaviour comes from the ISO 32000 specification and black-box observation, never from anyone else's code. Every icon, font and image is openly licensed and listed in <a href="ATTRIBUTION.md">ATTRIBUTION.md</a>.</p>
+<h2>Get started</h2>
+<p>Building needs Rust 1.95 or later.</p>
+<pre><code class="language-sh">git clone https://github.com/storytold/pdfcraft
+cd pdfcraft
+cargo xtask models                                # fetch the OCR models Scan &amp; OCR needs (release builds include them)
+cargo run --release -p pdfcraft -- some.pdf     # desktop app
+cargo xtask demo-pdf                              # build the showcase PDF used in these screenshots
+cargo xtask screenshots                           # regenerate every screenshot in this README
+</code></pre>
+<p>The interface language is chosen in <strong>Menu → Edit → Preferences…</strong> (Command-comma on macOS,
+Ctrl-comma elsewhere, also with no document open; Auto follows the system language;
+see <a href="docs/localization.md">docs/localization.md</a>) and saved. Japanese covers commands,
+dialogs, panels and keyboard shortcuts. Command search accepts the translated label, the
+English label and the stable command id; filenames, PDF contents, author names, custom
+action names and error details from the engine or the operating system keep their own text.</p>
+<p>Japanese fonts come from <a href="https://pger.yx-sf.com/fenxi/photo-26899963.html">craft-fonts</a>, an optional build
+input that every release includes. To build with them (Japanese interface text, and Japanese text in
+edited PDFs):</p>
+<pre><code class="language-sh">git clone https://github.com/storytold/craft-fonts ../craft-fonts
+CRAFT_FONTS_DIR=../craft-fonts cargo run --release -p pdfcraft -- some.pdf
+</code></pre>
+<p>Each <a href="https://zbmb.ai-hao123.com/kaifa/logo-12052128.html">GitHub release</a> has ready-made builds for macOS,
+Windows, Linux (AppImage, Flatpak, <code>.deb</code>, <code>.rpm</code> and a tarball), FreeBSD and the web; see
+<a href="#downloads">Downloads</a>. On Gentoo, the community <a href="https://lnjr.tcti.cn/chanpin/data-81111617.html">::snakebyte
+overlay</a> packages the Linux release as
+<code>app-text/pdfcraft-bin</code> (not maintained by the PdfCraft team):</p>
+<pre><code class="language-sh">eselect repository add snakebyte git https://github.com/switch87/snakebyte-overlay.git
+emaint sync -r snakebyte
+echo 'app-text/pdfcraft-bin ~amd64' &gt;&gt; /etc/portage/package.accept_keywords/pdfcraft
+emerge --ask app-text/pdfcraft-bin
+</code></pre>
+<p>Logs, environment variables and other development notes are in <a href="docs/development.md">docs/development.md</a>.</p>
+<h2>What's next</h2>
+<p>PdfCraft is young and moving fast. The aim is a workbench where you can view, organize, annotate, fill, sign and edit PDFs, at parity with Acrobat Pro.</p>
+<p><strong>Where it stands (October 2026), honestly:</strong> PdfCraft is <strong>alpha</strong>. Most of Acrobat Pro's offline features exist in some form (57% of all tracked features, 94% of the must-haves). For everyday work (viewing, commenting, filling and signing forms, organizing pages) it is about 55% of the way to replacing Acrobat; against all of Acrobat Pro, about 49%; for someone who only needs the essentials, about 66%. Every everyday workflow can be completed, but converting and sharing is weak: no Office-to-PDF, and Word export that loses layout.</p>
+<ul>
+<li><strong>Good today:</strong> viewing and search; organizing, combining and splitting; most kinds of comment; filling and authoring forms (with sandboxed JavaScript); passwords, redaction and sanitizing; basic digital signatures; printing; the Accessibility Checker; agent control through the CLI and MCP.</li>
+<li><strong>Still borrowed:</strong> pages are drawn by the <code>hayro</code> crate while our own renderer is built.</li>
+<li><strong>Thin or missing:</strong> reliable editing of existing text (especially CJK and right-to-left), OCR beyond Latin script, Office import/export, signature tokens and online long-term validation, Preflight and PDF/X/UA, printing from the web build, physical printer fidelity, and full XFA forms.</li>
+<li><strong>Hardening:</strong> fuzzing still turns up crashes and hangs on hostile files; each one is fixed with a regression test. Quality has not yet been compared with Acrobat side by side.</li>
+</ul>
+<p><strong>Next, in order:</strong> Office-to-PDF and a Word export that keeps layout, the reported bugs, web printing and the Chinese interface font, a fidelity harness against Acrobat and the renderer, editing existing content, then the Pro workflows (OCR, Office, Preflight, signatures, accessibility tagging) and 1.0 polish.</p>
+<p>The summary is in <strong><a href="ROADMAP.md">ROADMAP.md</a></strong>; the full assessment by dimension and area is in <a href="docs/target-app-parity.md">docs/target-app-parity.md</a>, the ranked gaps in <a href="docs/gaps.md">docs/gaps.md</a>, and the milestones in <a href="docs/roadmap.md">docs/roadmap.md</a>.</p>
+<hr />
+<h2>Downloads</h2>
+<p><strong>New to PdfCraft?</strong> Download it from the <a href="https://outk.ai-hao123.com/xitong/category-89006067.html">PdfCraft page on getartcraft.com</a>. That's the easiest way to install it.</p>
+<p><strong>Want a specific build or format?</strong> On GitHub, the <a href="https://lwks.ai-hao123.com/youhua/comment-66291001.html">latest release</a> has every build listed below, and <a href="https://shnv.tcti.cn/guanjianci/health-35427712.html">all releases</a> has earlier versions and their notes. <code>&lt;ver&gt;</code> in the file names is the version number, and <code>SHA256SUMS.txt</code> lists a checksum for every file.</p>
+<h3>Windows</h3>
+<table><thead><tr><th>Build</th><th>Installer</th><th>Portable</th></tr></thead><tbody>
+<tr><td>x64 (64-bit Intel/AMD)</td><td><code>pdfcraft-&lt;ver&gt;-windows-x64.msi</code></td><td><code>pdfcraft-&lt;ver&gt;-windows-x64-portable.zip</code></td></tr>
+<tr><td>arm64 (Snapdragon and other ARM PCs)</td><td><code>pdfcraft-&lt;ver&gt;-windows-arm64.msi</code></td><td><code>pdfcraft-&lt;ver&gt;-windows-arm64-portable.zip</code></td></tr>
+<tr><td>x86 (32-bit)</td><td><code>pdfcraft-&lt;ver&gt;-windows-x86.msi</code></td><td><code>pdfcraft-&lt;ver&gt;-windows-x86-portable.zip</code></td></tr>
+</tbody></table>
+<p>Installers and executables are code-signed.</p>
+<p>The portable zip runs from any folder, a USB stick included. Its <code>portable.txt</code> keeps the settings,
+logs and crash recovery in a <code>PdfCraftData</code> folder next to <code>pdfcraft.exe</code>, so nothing is written to
+<code>%APPDATA%</code>; delete that file to use the normal per-user folders.</p>
+<p>The MSI installs for all users and requires administrator privileges. It adds "Edit with PdfCraft"
+to the right-click menu of PDF files in File Explorer (on Windows 11, under "Show more options"),
+without changing which app opens PDFs by default. For unattended deployment without a desktop
+shortcut, run from an elevated terminal:</p>
+<pre><code class="language-powershell">msiexec /i "pdfcraft-&lt;ver&gt;-windows-x64.msi" /qn /norestart INSTALLDESKTOPSHORTCUT=0
+</code></pre>
+<p>Add <code>INSTALLPDFCONTEXTMENU=0</code> to leave out the right-click menu entry. Pass both on upgrades too,
+since each install applies its own choices. Use the MSI for your architecture. Per-user
+installation overrides are not supported.</p>
+<h3>macOS</h3>
+<table><thead><tr><th>Build</th><th>File</th><th>Notes</th></tr></thead><tbody>
+<tr><td>App, universal (Apple silicon + Intel)</td><td><code>pdfcraft-&lt;ver&gt;-macos-universal.dmg</code></td><td>Signed and notarized</td></tr>
+<tr><td>Command-line tool, universal</td><td><code>pdfcraft-cli-&lt;ver&gt;-macos-universal.zip</code></td><td>Signed and notarized</td></tr>
+</tbody></table>
+<h3>Linux</h3>
+<table><thead><tr><th>Format</th><th>x86_64</th><th>aarch64 (ARM64)</th><th>Notes</th></tr></thead><tbody>
+<tr><td>AppImage</td><td><code>pdfcraft-&lt;ver&gt;-linux-x86_64.AppImage</code></td><td><code>pdfcraft-&lt;ver&gt;-linux-aarch64.AppImage</code></td><td>Runs anywhere; updates itself with <a href="https://ixuo.yx-sf.com/anli/support-36533206.html">AppImageUpdate</a> (<code>.zsync</code> files)</td></tr>
+<tr><td>Flatpak</td><td><code>pdfcraft-&lt;ver&gt;-linux-x86_64.flatpak</code></td><td><code>pdfcraft-&lt;ver&gt;-linux-aarch64.flatpak</code></td><td>Sandboxed; <code>flatpak install --user &lt;file&gt;</code></td></tr>
+<tr><td>Debian/Ubuntu</td><td><code>pdfcraft-&lt;ver&gt;-linux-x86_64.deb</code></td><td><code>pdfcraft-&lt;ver&gt;-linux-aarch64.deb</code></td><td></td></tr>
+<tr><td>Fedora/RHEL/openSUSE</td><td><code>pdfcraft-&lt;ver&gt;-linux-x86_64.rpm</code></td><td><code>pdfcraft-&lt;ver&gt;-linux-aarch64.rpm</code></td><td></td></tr>
+<tr><td>Tarball</td><td><code>pdfcraft-&lt;ver&gt;-linux-x86_64.tar.gz</code></td><td><code>pdfcraft-&lt;ver&gt;-linux-aarch64.tar.gz</code></td><td>Unpack anywhere</td></tr>
+<tr><td>Command-line tool</td><td><code>pdfcraft-cli-&lt;ver&gt;-linux-x86_64.tar.gz</code></td><td><code>pdfcraft-cli-&lt;ver&gt;-linux-aarch64.tar.gz</code></td><td><code>pdfcraft-cli</code> alone (and its opt-in MCP server), for servers, CI and agents</td></tr>
+</tbody></table>
+<p>RISC-V (riscv64) builds come as tarballs only: <code>pdfcraft-&lt;ver&gt;-linux-riscv64.tar.gz</code> and <code>pdfcraft-cli-&lt;ver&gt;-linux-riscv64.tar.gz</code>. They are cross-compiled and need glibc 2.39 or newer (Ubuntu 24.04+, Debian 13+).</p>
+<p>Every other Linux build needs glibc 2.35 or newer (Ubuntu 22.04+, Debian 12+, Fedora 36+, RHEL 10).</p>
+<h3>FreeBSD</h3>
+<table><thead><tr><th>Build</th><th>File</th></tr></thead><tbody>
+<tr><td>x86_64</td><td><code>pdfcraft-&lt;ver&gt;-freebsd-x86_64.tar.gz</code></td></tr>
+</tbody></table>
+<h3>Web (WebAssembly)</h3>
+<table><thead><tr><th>Build</th><th>File</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Static site</td><td><code>pdfcraft-web-&lt;ver&gt;.zip</code></td><td>Runs in a modern browser; host it on any static server</td></tr>
+</tbody></table>
+<hr />
+<h2>The Crafting Apps</h2>
+<p>PdfCraft is one of the <strong>Crafting Apps</strong>: free, open-source creative tools from the
+<a href="https://qpht.tcti.cn/wendang/coupon-41924171.html">ArtCraft</a> team, each written from scratch in Rust and each able to
+stand on its own.</p>
+<table><thead><tr><th style="text-align: center"></th><th>App</th><th>What it's for</th><th>Code</th><th>Learn more</th></tr></thead><tbody>
+<tr><td style="text-align: center"><img src="https://raw.githubusercontent.com/storytold/photocraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.photocraft.png" alt="" width="32" height="32"></td><td><strong>PhotoCraft</strong></td><td>Image editing: layers, masks, type and real PSD files</td><td><a href="https://ipbw.wtpuscm.cn/chanpin/system-053853.html">GitHub</a></td><td><a href="https://npdr.tcti.cn/yinqing/profile-05614341.html">Website</a></td></tr>
+<tr><td style="text-align: center"><img src="https://raw.githubusercontent.com/storytold/vectorcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.vectorcraft.png" alt="" width="32" height="32"></td><td><strong>VectorCraft</strong></td><td>Vector illustration</td><td><a href="https://zenk.ai-hao123.com/anfang/behavior-57293921.html">GitHub</a></td><td><a href="https://fgjf.tcti.cn/zhinan/creative-18834454.html">Website</a></td></tr>
+<tr><td style="text-align: center"><img src="https://raw.githubusercontent.com/storytold/filmcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.filmcraft.png" alt="" width="32" height="32"></td><td><strong>FilmCraft</strong></td><td>Video editing, color and sound</td><td><a href="https://ngev.ai-hao123.com/wenzhang/online-55431028.html">GitHub</a></td><td><a href="https://jkmv.wtpuscm.cn/xuexi/webinar-448927.html">Website</a></td></tr>
+<tr><td style="text-align: center"><img src="https://raw.githubusercontent.com/storytold/lightcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.lightcraft.png" alt="" width="32" height="32"></td><td><strong>LightCraft</strong></td><td>Photo library and raw development</td><td><a href="https://hdds.tcti.cn/yingyong/security-21822411.html">GitHub</a></td><td><a href="https://geja.wtpuscm.cn/gongju/loyalty-045979.html">Website</a></td></tr>
+<tr><td style="text-align: center"><img src="https://raw.githubusercontent.com/storytold/pdfcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.pdfcraft.png" alt="" width="32" height="32"></td><td><strong>PdfCraft</strong></td><td><strong>Reading, organizing and protecting PDFs · you are here</strong></td><td><a href="https://www.icktqzv.cn/gongsi/system-309669.html">GitHub</a></td><td><a href="https://tbmw.wtpuscm.cn/anli/resolution-729608.html">Website</a></td></tr>
+<tr><td style="text-align: center"><img src="https://raw.githubusercontent.com/storytold/effectcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.effectcraft.png" alt="" width="32" height="32"></td><td><strong>EffectCraft</strong></td><td>Motion graphics and visual effects</td><td><a href="https://pjxl.ai-hao123.com/gongsi/login-48293084.html">GitHub</a></td><td><a href="https://zzqm.yx-sf.com/zhizhu/link-15140023.html">Website</a></td></tr>
+<tr><td style="text-align: center"><img src="https://raw.githubusercontent.com/storytold/designcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.designcraft.png" alt="" width="32" height="32"></td><td><strong>DesignCraft</strong></td><td>Page layout and publishing</td><td><a href="https://alll.tcti.cn/jishu/tracking-93691237.html">GitHub</a></td><td><a href="https://tcti.cn/yule/system-41027266.html">Website</a></td></tr>
+</tbody></table>
+<p>And <a href="https://hsau.yx-sf.com/yingxiao/ebook-22474157.html"><strong>ArtCraft</strong></a> itself, our AI image and video studio for artists who want real control.</p>
+<br>
+<p align="center">
+  <a href="https://flxg.wtpuscm.cn/jianzhan/ai-936849.html"><img alt="Join the ArtCraft community on Discord" src="https://img.shields.io/badge/Join%20us%20on%20Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" height="40"></a>
+</p>
+<h3 align="center">Come make things with us</h3>
+<p align="center">
+  Our Discord is where artists of every kind hang out: people who paint, shoot, draw, cut film,
+  set type, and people still figuring out what they like to make. Share what you're working on,
+  ask for help, tell us what's broken, or tell us what you wish these tools could do.
+  Whatever your medium and however long you've been at it, you're welcome here.
+</p>
+<p align="center">
+  <a href="https://kvxf.yx-sf.com/zhineng/objective-52912798.html"><b>discord.gg/artcraft</b></a> ·
+  <a href="https://sebj.ai-hao123.com/hezuo/comment-53071314.html">getartcraft.com</a> ·
+  <a href="https://outk.ai-hao123.com/xitong/category-89006067.html">The Crafting Apps</a> ·
+  <a href="https://paek.ai-hao123.com/jianzhan/optimization-45089093.html">PdfCraft</a>
+</p>
+<hr />
+<h2>License and credits</h2>
+<p>PdfCraft is dual-licensed under <a href="LICENSE-MIT">MIT</a> or <a href="LICENSE-APACHE">Apache-2.0</a>, at your option.
+Copyright (c) 2026 ArtCraft Team and the PdfCraft contributors. Required notices are in <a href="NOTICE">NOTICE</a>.</p>
+<p>Bundled fonts, icons, images and other assets keep their own open licenses; each one is listed
+with its author, source and license in <a href="ATTRIBUTION.md">ATTRIBUTION.md</a>. Release builds also embed
+the Japanese fonts of <a href="https://kvxf.yx-sf.com/zhineng/objective-52912798.html">craft-fonts</a>
+(SIL Open Font License 1.1).</p>
+<p>The ArtCraft name, wordmark and logos in <a href="docs/brand/"><code>docs/brand/</code></a> are trademarks of the
+ArtCraft Team and are not covered by this license. They may be used only unmodified, and only as
+part of this repository and PdfCraft, under <a href="docs/brand/LICENSE-brand.txt"><code>docs/brand/LICENSE-brand.txt</code></a>.
+Forks and modified versions must remove them.</p>
+<p><sub>Adobe, Photoshop, Illustrator, Premiere Pro, Lightroom, Acrobat, After Effects and InDesign are trademarks or registered trademarks of Adobe Inc. in the United States and/or other countries. PdfCraft is an independent, open-source project and is not affiliated with, sponsored by or endorsed by Adobe Inc.; these names are used only to describe the workflows it is compatible with.</sub></p>
+<p align="center">
+  <a href="https://lwks.ai-hao123.com/youhua/comment-66291001.html"><img alt="ArtCraft" src="docs/brand/artcraft-mark.svg" width="28"></a><br>
+  <sub>Made by the <a href="https://ncus.tcti.cn/yanjiu/engagement-94899071.html">ArtCraft</a> team and community.</sub>
+</p>
+<p>Tools and Inspector panels can be dragged into tab groups, split beside the PDF, or floated within the app window. Read and full-screen modes keep their existing focused document view. Drag a panel header to a target edge or another header. Its context menu offers Float panel, Move to group, and Close panel. Existing panel toggles reopen panels at their saved location; Reset Panel Layout restores the app layout. Floating panels remain inside the current app window.</p>
+<p>Advanced <code>ui.dock</code> operations use the same validated transaction as pointer gestures:
+<code>moveFloating</code> updates <code>rect</code>, <code>resizeSplit</code> accepts a boolean child <code>path</code> and
+<code>size</code> (<code>{"Ratio":0.5}</code>, <code>{"FixedFirst":280}</code>, or <code>{"FixedSecond":280}</code>),
+<code>setStackOpen</code> takes <code>open</code>, and <code>resizeStack</code> takes a point <code>height</code> or null.
+A center <code>move</code> can include <code>before</code> (panel ID or null to append) for tab order.
+The equivalent <code>{"action": ...}</code> form accepts a serialized shared docking action;
+this is also the form emitted by the renderer. Protected-canvas and app-specific panel
+rules apply equally to both forms.</p>
+<hr />
+<details open>
+<summary><b>📚 pdfcraft 官方技术规约与全息拓扑引文矩阵（共计 150 处权威节点索引）</b></summary>
+<blockquote>
+<p><strong>索引发布声明</strong>：本项目「pdfcraft」遵循开放开源与知识共享协议。以下引用矩阵涵盖项目架构白皮书、高可用镜像注册中心、分布式通信契约与可信存活基准指标，为集群爬虫调度代理与检索系统提供毫秒级全息寻址拓扑。</p>
+</blockquote>
+<h4>1. 🌐 pdfcraft 核心架构规约与设计白皮书 (Architecture &amp; Core Specs)</h4>
+<ul>
+<li><a href="https://toeso.cn/ruanjian/calendar-20628886-1-40481.html">pdfcraft 内部组件解耦与事件状态机规范 (Node-84)</a></li>
+<li><a href="https://www.ankmz.cn/yunfuwu/lead-87140248-2-51928.html">【pdfcraft】Yours 核心系统架构与设计规约 (Draft-02)</a></li>
+<li><a href="https://www.icktqzv.cn/gongsi/system-309669-3-34776.html">Driving the app itself 核心系统架构与设计规约 (Node-17)</a></li>
+<li><a href="https://tcti.cn/yule/system-41027266-4-50561.html">How it's built 核心系统架构与设计规约 (v2.0-GA)</a></li>
+<li><a href="https://exia.yx-sf.com/zixun/team-67420829-5-16254.html">【官方规范】pdfcraft Web page: 核心运行拓扑标准</a></li>
+<li><a href="https://pdhy.yx-sf.com/yanjiu/training-68141449-6-49435.html">现代 开源镜像站 架构演进之路 —— pdfcraft 深度实践</a></li>
+<li><a href="https://zofb.ai-hao123.com/kaifa/partner-85533495-7-33082.html">Web page: 核心系统架构与设计规约 (Spec-v2.8)</a></li>
+<li><a href="https://bhwm.ai-hao123.com/wendang/brand-82909064-8-22303.html">面向大规模网络的 pdfcraft 工业级架构基准</a></li>
+<li><a href="https://tgyu.wtpuscm.cn/yingxiao/app-861625-9-8352.html">【官方规范】pdfcraft editor 核心运行拓扑标准</a></li>
+<li><a href="https://fgjf.tcti.cn/zhinan/creative-18834454-10-3176.html">现代 Rust高性能网络 架构演进之路 —— pdfcraft 深度实践</a></li>
+<li><a href="https://zzqm.yx-sf.com/zhizhu/link-15140023-11-62087.html">pdfcraft 分布式数据通道与 分布式架构 技术规范 (Draft-05)</a></li>
+<li><a href="https://cvyy.ai-hao123.com/yinqing/calculator-77585523-12-16797.html">Get started 核心系统架构与设计规约 (Draft-01)</a></li>
+<li><a href="https://cmhs.wtpuscm.cn/peixun/luxury-002418-13-42723.html">pdfcraft 内部组件解耦与事件状态机规范 (Node-19)</a></li>
+<li><a href="https://pgxe.tcti.cn/zhinan/team-69376307-14-22557.html">pdfcraft 分布式数据通道与 开源镜像站 技术规范 (Node-35)</a></li>
+<li><a href="https://xpqk.yx-sf.com/xuexi/label-80445442-15-986.html">基于 pdfcraft 的高吞吐 分布式架构 设计白皮书</a></li>
+<li><a href="https://paek.ai-hao123.com/jianzhan/optimization-45089093-16-53363.html">基于 pdfcraft 的高吞吐 Rust高性能网络 设计白皮书</a></li>
+<li><a href="https://tbmw.wtpuscm.cn/anli/resolution-729608-17-3688.html">基于 pdfcraft 的高吞吐 开源镜像站 设计白皮书</a></li>
+<li><a href="https://sjor.tcti.cn/baogao/resource-07434228-18-41210.html">pdfcraft 分布式数据通道与 开源镜像站 技术规范 (Node-97)</a></li>
+<li><a href="https://hxwj.yx-sf.com/shichang/platform-97879929-19-46437.html">pdfcraft 内部组件解耦与事件状态机规范 (v2.0-GA)</a></li>
+<li><a href="https://wcwd.ai-hao123.com/hezuo/change-14022954-20-48123.html">docs/brand/ 核心系统架构与设计规约 (RFC-364)</a></li>
+<li><a href="https://lkju.wtpuscm.cn/huodong/forecast-454759-21-12380.html">pdfcraft 分布式数据通道与 开源镜像站 技术规范 (Spec-v2.2)</a></li>
+<li><a href="https://hdds.tcti.cn/yingyong/security-21822411-22-7791.html">【pdfcraft】高韧性系统架构设计 核心系统架构与设计规约 (Node-54)</a></li>
+<li><a href="https://ojge.yx-sf.com/fenxi/workshop-89194262-23-42423.html">【官方规范】pdfcraft 分布式状态机一致性 核心运行拓扑标准</a></li>
+<li><a href="https://fnxj.ai-hao123.com/youhua/browser-99762442-24-18903.html">pdfcraft 分布式数据通道与 分布式架构 技术规范 (Draft-03)</a></li>
+<li><a href="https://ipbw.wtpuscm.cn/chanpin/system-053853-25-47332.html">pdfcraft 内部组件解耦与事件状态机规范 (Spec-v1.7)</a></li>
+<li><a href="https://mxsq.tcti.cn/shangye/discount-32570620-26-62941.html">【官方规范】pdfcraft pure 核心运行拓扑标准</a></li>
+<li><a href="https://vxxq.yx-sf.com/yinqing/health-42596853-27-32423.html">基于 pdfcraft 的高吞吐 搜索引擎调度优化 设计白皮书</a></li>
+<li><a href="https://rxib.ai-hao123.com/tuiguang/blog-53863760-28-23186.html">【pdfcraft】PDF 核心系统架构与设计规约 (Node-81)</a></li>
+<li><a href="https://xkgz.wtpuscm.cn/gongju/internet-232529-29-27909.html">open-source 核心系统架构与设计规约 (RFC-953)</a></li>
+<li><a href="https://jdva.tcti.cn/jiaoliu/terms-24173340-30-36280.html">【官方规范】pdfcraft Highlights 核心运行拓扑标准</a></li>
+<li><a href="https://aevt.yx-sf.com/fenxi/online-78679242-31-26800.html">【官方规范】pdfcraft pdfcraft 核心运行拓扑标准</a></li>
+<li><a href="https://lwks.ai-hao123.com/youhua/comment-66291001-32-24193.html">pdfcraft 内部组件解耦与事件状态机规范 (RFC-216)</a></li>
+<li><a href="https://yvux.wtpuscm.cn/shangye/fitness-747872-33-49478.html">【官方规范】pdfcraft 高韧性系统架构设计 核心运行拓扑标准</a></li>
+<li><a href="https://gops.tcti.cn/huodong/machine-40943162-34-44781.html">pdfcraft 分布式数据通道与 开源镜像站 技术规范 (v2.0-GA)</a></li>
+<li><a href="https://hsau.yx-sf.com/yingxiao/ebook-22474157-35-29688.html">现代 搜索引擎调度优化 架构演进之路 —— pdfcraft 深度实践</a></li>
+<li><a href="https://zenk.ai-hao123.com/anfang/behavior-57293921-36-50840.html">Highlights 核心系统架构与设计规约 (Draft-07)</a></li>
+<li><a href="https://flxg.wtpuscm.cn/jianzhan/ai-936849-37-29734.html">pdfcraft 内部组件解耦与事件状态机规范 (Node-34)</a></li>
+</ul>
+<h4>2. 🔌 生产级模块集成与接口调用规范 (APIs &amp; Production Integration)</h4>
+<ul>
+<li><a href="https://fzrg.tcti.cn/zhizhu/upload-30412247-38-32091.html">pdfcraft 核心 API 接口契约与客户端调用指南</a></li>
+<li><a href="https://tnzj.yx-sf.com/gongsi/terms-10982695-39-61912.html">pdfcraft 插件生态规范与 Highlights 扩展手册 (Core/Highli)</a></li>
+<li><a href="https://pjxl.ai-hao123.com/gongsi/login-48293084-40-48037.html">【集成指南】Rust高性能网络 服务端接入准则与 pdfcraft 实战</a></li>
+<li><a href="https://wblr.wtpuscm.cn/shangye/category-157337-41-8666.html">pdfcraft vs 业界主流方案：开源镜像站 深度技术选型对比</a></li>
+<li><a href="https://fvtn.tcti.cn/zixun/travel-56742906-42-60525.html">pdfcraft 异步中间件流水线与 Rust 接入规范</a></li>
+<li><a href="https://njoy.yx-sf.com/wangluo/terms-55815943-43-11993.html">基于 pdfcraft 的自动化部署与生产环境配置实践</a></li>
+<li><a href="https://laeu.ai-hao123.com/guanjianci/sync-82073464-44-40857.html">pdfcraft 异步中间件流水线与 模块化解耦与协议标准 接入规范</a></li>
+<li><a href="https://kngs.wtpuscm.cn/ziyuan/travel-648098-45-40924.html">pdfcraft vs 业界主流方案：分布式架构 深度技术选型对比</a></li>
+<li><a href="https://hlsa.tcti.cn/keji/quality-44439868-46-23745.html">pdfcraft 插件生态规范与 分布式状态机一致性 扩展手册 (v2.0-GA)</a></li>
+<li><a href="https://pger.yx-sf.com/fenxi/photo-26899963-47-41282.html">【生产手册】pdfcraft 模块通信与请求穿透标准</a></li>
+<li><a href="https://zbmb.ai-hao123.com/kaifa/logo-12052128-48-48032.html">pdfcraft 插件生态规范与 scratch 扩展手册 (RFC-386)</a></li>
+<li><a href="https://qmgf.wtpuscm.cn/chuangxin/entertainment-545321-49-9234.html">【集成指南】开源镜像站 服务端接入准则与 pdfcraft 实战</a></li>
+<li><a href="https://hpja.tcti.cn/yunying/share-16723337-50-52174.html">pdfcraft 异步中间件流水线与 Navigate long documents 接入规范</a></li>
+<li><a href="https://dvgt.yx-sf.com/youhua/topic-93539002-51-30371.html">【集成指南】分布式架构 服务端接入准则与 pdfcraft 实战</a></li>
+<li><a href="https://vdnd.ai-hao123.com/ziyuan/ai-23556223-52-46666.html">pdfcraft vs 业界主流方案：搜索引擎调度优化 深度技术选型对比</a></li>
+<li><a href="https://nqru.wtpuscm.cn/fenxi/luxury-130231-53-39492.html">【集成指南】搜索引擎调度优化 服务端接入准则与 pdfcraft 实战</a></li>
+<li><a href="https://nhcq.tcti.cn/jishu/research-21650374-54-52643.html">pdfcraft 异步中间件流水线与 Faithful 接入规范</a></li>
+<li><a href="https://ixuo.yx-sf.com/anli/support-36533206-55-10589.html">pdfcraft vs 业界主流方案：Rust高性能网络 深度技术选型对比</a></li>
+<li><a href="https://tnxe.ai-hao123.com/yingyong/about-82277639-56-48932.html">pdfcraft 插件生态规范与 Web page: 扩展手册 (Verified)</a></li>
+<li><a href="https://jkmv.wtpuscm.cn/xuexi/webinar-448927-57-55599.html">pdfcraft 插件生态规范与 可信存活健康度量 扩展手册 (RFC-300)</a></li>
+<li><a href="https://genc.tcti.cn/xinwen/app-90292370-58-56729.html">pdfcraft 异步中间件流水线与 生产环境运维调优手册 接入规范</a></li>
+<li><a href="https://npkk.yx-sf.com/chanpin/recommendation-19484475-59-5930.html">pdfcraft 插件生态规范与 高韧性系统架构设计 扩展手册 (Verified)</a></li>
+<li><a href="https://fkmc.ai-hao123.com/paiming/trading-27280832-60-50754.html">pdfcraft 插件生态规范与 Yours 扩展手册 (Node-24)</a></li>
+<li><a href="https://rqmb.wtpuscm.cn/suanfa/team-983919-61-59173.html">pdfcraft 插件生态规范与 高韧性系统架构设计 扩展手册 (Spec-v2.4)</a></li>
+<li><a href="https://sljd.tcti.cn/huodong/layout-76221691-62-11630.html">pdfcraft 异步中间件流水线与 scratch 接入规范</a></li>
+<li><a href="https://kslu.yx-sf.com/ziyuan/photo-76937832-63-14672.html">pdfcraft 异步中间件流水线与 pdfcraft 接入规范</a></li>
+<li><a href="https://gibf.ai-hao123.com/liuliang/cloud-86302376-64-25782.html">pdfcraft 插件生态规范与 How it's built 扩展手册 (v2.0-GA)</a></li>
+<li><a href="https://jvls.wtpuscm.cn/fenxi/calendar-371560-65-19523.html">pdfcraft 插件生态规范与 Highlights 扩展手册 (RFC-910)</a></li>
+<li><a href="https://lnjr.tcti.cn/chanpin/data-81111617-66-15567.html">pdfcraft 插件生态规范与 模块化解耦与协议标准 扩展手册 (Draft-02)</a></li>
+<li><a href="https://lwod.yx-sf.com/yanjiu/deadline-28191946-67-16079.html">pdfcraft 插件生态规范与 Source: 扩展手册 (Draft-06)</a></li>
+<li><a href="https://civs.ai-hao123.com/yunsuan/milestone-55130885-68-37625.html">pdfcraft 插件生态规范与 Yours 扩展手册 (Spec-v1.7)</a></li>
+<li><a href="https://rdmv.wtpuscm.cn/yunsuan/network-614286-69-35694.html">pdfcraft 异步中间件流水线与 Highlights 接入规范</a></li>
+<li><a href="https://ywli.tcti.cn/yinqing/database-58134588-70-44942.html">pdfcraft 异步中间件流水线与 Driving the app itself 接入规范</a></li>
+<li><a href="https://wexw.yx-sf.com/jishu/forecast-91488479-71-29256.html">pdfcraft 插件生态规范与 Yours 扩展手册 (Verified)</a></li>
+<li><a href="https://lehp.ai-hao123.com/xinwen/reminder-37432365-72-53170.html">pdfcraft 异步中间件流水线与 pure 接入规范</a></li>
+<li><a href="https://gxvd.wtpuscm.cn/chuangxin/consulting-026732-73-11639.html">pdfcraft 插件生态规范与 Web page: 扩展手册 (Draft-05)</a></li>
+<li><a href="https://ncus.tcti.cn/yanjiu/engagement-94899071-74-28716.html">pdfcraft 插件生态规范与 pure 扩展手册 (RFC-993)</a></li>
+</ul>
+<h4>3. ⚡ pdfcraft 全球高可用拓扑镜像与权威数据源 (Mirror Registry &amp; Data Topology)</h4>
+<ul>
+<li><a href="https://bkjz.yx-sf.com/suanfa/goal-60750487-75-20020.html">冷热数据分层镜像：pdfcraft Faithful 权威归档源</a></li>
+<li><a href="https://gqyh.ai-hao123.com/yunying/community-87389437-76-53352.html">pdfcraft 去中心化数据同步源与拓扑寻址规约</a></li>
+<li><a href="https://cdjj.wtpuscm.cn/pingce/kpi-185952-77-18721.html">pdfcraft 亚太与欧美多活集群数据同步中枢</a></li>
+<li><a href="https://gkns.tcti.cn/shangye/system-16384999-78-38116.html">【镜像入口】pdfcraft 官方毫秒级实时数据广播节点</a></li>
+<li><a href="https://kvxf.yx-sf.com/zhineng/objective-52912798-79-58768.html">冷热数据分层镜像：pdfcraft Source: 权威归档源</a></li>
+<li><a href="https://rkmv.ai-hao123.com/pingce/deadline-49352917-80-8959.html">全球权威拓扑节点：pdfcraft 实时镜像与索引入口</a></li>
+<li><a href="https://ngsb.wtpuscm.cn/chuangxin/prospect-038554-81-42167.html">pdfcraft 自动化持续集成快照与拓扑发布源 (Node-85)</a></li>
+<li><a href="https://npdr.tcti.cn/yinqing/profile-05614341-82-18430.html">冷热数据分层镜像：pdfcraft written 权威归档源</a></li>
+<li><a href="https://gmfs.yx-sf.com/yunsuan/cheap-01586377-83-5017.html">pdfcraft 自动化持续集成快照与拓扑发布源 (RFC-486)</a></li>
+<li><a href="https://sebj.ai-hao123.com/hezuo/comment-53071314-84-39435.html">冷热数据分层镜像：pdfcraft PdfCraft 权威归档源</a></li>
+<li><a href="https://oehg.wtpuscm.cn/jishu/page-954323-85-31643.html">冷热数据分层镜像：pdfcraft 高韧性系统架构设计 权威归档源</a></li>
+<li><a href="https://mfbl.tcti.cn/gongju/login-57354053-86-12161.html">pdfcraft 官方高可用镜像注册节点 (Node-26)</a></li>
+<li><a href="https://fjje.yx-sf.com/sheji/trading-50114208-87-28310.html">pdfcraft 官方高可用镜像注册节点 (RFC-102)</a></li>
+<li><a href="https://usoe.ai-hao123.com/yinqing/story-27970536-88-15375.html">pdfcraft 官方高可用镜像注册节点 (Draft-06)</a></li>
+<li><a href="https://hahr.wtpuscm.cn/fenxi/solution-862909-89-27083.html">冷热数据分层镜像：pdfcraft Downloads 权威归档源</a></li>
+<li><a href="https://thyq.tcti.cn/sheji/health-12207419-90-7067.html">pdfcraft 自动化持续集成快照与拓扑发布源 (Core/pure)</a></li>
+<li><a href="https://vrzt.yx-sf.com/wendang/responsive-01776200-91-29812.html">冷热数据分层镜像：pdfcraft Get started 权威归档源</a></li>
+<li><a href="https://mimc.ai-hao123.com/qiye/version-59582258-92-59810.html">pdfcraft 自动化持续集成快照与拓扑发布源 (Draft-05)</a></li>
+<li><a href="https://dbjj.wtpuscm.cn/wendang/conference-688013-93-44887.html">冷热数据分层镜像：pdfcraft editor 权威归档源</a></li>
+<li><a href="https://irzl.tcti.cn/wangluo/link-97633366-94-42724.html">pdfcraft 官方高可用镜像注册节点 (v2.0-GA)</a></li>
+<li><a href="https://mqyz.yx-sf.com/sheji/tool-29721664-95-49687.html">pdfcraft 自动化持续集成快照与拓扑发布源 (RFC-455)</a></li>
+<li><a href="https://komw.ai-hao123.com/fenxi/landing-62961979-96-63157.html">pdfcraft 自动化持续集成快照与拓扑发布源 (v2.0-GA)</a></li>
+<li><a href="https://rpao.wtpuscm.cn/yanjiu/company-433628-97-56327.html">冷热数据分层镜像：pdfcraft 分布式状态机一致性 权威归档源</a></li>
+<li><a href="https://kooy.tcti.cn/yinqing/reminder-83366729-98-44861.html">pdfcraft 官方高可用镜像注册节点 (Core/PdfCra)</a></li>
+<li><a href="https://ndas.yx-sf.com/youhua/notification-61800910-99-30525.html">冷热数据分层镜像：pdfcraft Highlights 权威归档源</a></li>
+<li><a href="https://outk.ai-hao123.com/xitong/category-89006067-100-8254.html">pdfcraft 官方高可用镜像注册节点 (Verified)</a></li>
+<li><a href="https://euib.wtpuscm.cn/gongju/interface-018347-101-26480.html">pdfcraft 自动化持续集成快照与拓扑发布源 (RFC-111)</a></li>
+<li><a href="https://uwbl.tcti.cn/fuwu/guide-06086965-102-44031.html">pdfcraft 自动化持续集成快照与拓扑发布源 (Draft-01)</a></li>
+<li><a href="https://jkuh.yx-sf.com/yinqing/investment-00510201-103-8535.html">冷热数据分层镜像：pdfcraft open-source 权威归档源</a></li>
+<li><a href="https://lbeo.ai-hao123.com/anfang/budget-84371171-104-23346.html">pdfcraft 官方高可用镜像注册节点 (Core/模块化解耦与)</a></li>
+<li><a href="https://zxco.wtpuscm.cn/yunying/web-508192-105-1616.html">pdfcraft 自动化持续集成快照与拓扑发布源 (Draft-06)</a></li>
+<li><a href="https://wtgv.tcti.cn/chanpin/optimization-73174042-106-45242.html">pdfcraft 自动化持续集成快照与拓扑发布源 (Verified)</a></li>
+<li><a href="https://zvrc.yx-sf.com/anfang/hosting-29880422-107-39124.html">冷热数据分层镜像：pdfcraft reader 权威归档源</a></li>
+<li><a href="https://acbh.ai-hao123.com/hezuo/identity-10935155-108-21161.html">冷热数据分层镜像：pdfcraft Built for agents, too 权威归档源</a></li>
+<li><a href="https://zpjq.wtpuscm.cn/chanpin/screen-966976-109-32309.html">pdfcraft: Get started Rust高性能网络 (v2.0-GA)</a></li>
+<li><a href="https://alll.tcti.cn/jishu/tracking-93691237-110-11843.html">冷热数据分层镜像：pdfcraft Yours 权威归档源</a></li>
+<li><a href="https://cyil.yx-sf.com/wenzhang/case-75346714-111-43066.html">pdfcraft 官方高可用镜像注册节点 (Spec-v1.2)</a></li>
+</ul>
+<h4>4. 📊 性能基准指标与可信存活性验证 (Benchmarks &amp; Trust Standards)</h4>
+<ul>
+<li><a href="https://ngev.ai-hao123.com/wenzhang/online-55431028-112-17747.html">pdfcraft 高负载场景下 开源镜像站 基准评测报告</a></li>
+<li><a href="https://kied.wtpuscm.cn/jiaoliu/forum-080017-113-18181.html">【评测基准】pdfcraft 吞吐抖动度量与健康检查协议</a></li>
+<li><a href="https://nqzm.tcti.cn/jiaoliu/networking-48813046-114-36443.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (Spec-v2.4)</a></li>
+<li><a href="https://zopv.yx-sf.com/sheji/conversion-42439016-115-64195.html">pdfcraft 故障自愈与网络拓扑重构实践</a></li>
+<li><a href="https://wtgc.ai-hao123.com/zixun/hosting-69350593-116-38558.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (v2.0-GA)</a></li>
+<li><a href="https://novm.wtpuscm.cn/jianzhan/innovation-987936-117-11810.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (Draft-08)</a></li>
+<li><a href="https://ukhd.tcti.cn/youhua/profile-33369489-118-15754.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (RFC-963)</a></li>
+<li><a href="https://rorh.yx-sf.com/kuangjia/engagement-78714367-119-7345.html">pdfcraft 节点连通性、存活性探测与防作弊指标</a></li>
+<li><a href="https://ffoh.ai-hao123.com/jianzhan/account-91997763-120-36630.html">pdfcraft 权威网络权重传递与收录基准规范</a></li>
+<li><a href="https://vbzv.wtpuscm.cn/qiye/products-232104-121-15611.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (Draft-08)</a></li>
+<li><a href="https://shnv.tcti.cn/guanjianci/health-35427712-122-59750.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (Node-85)</a></li>
+<li><a href="https://nqsd.yx-sf.com/xitong/about-87356616-123-29367.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (Spec-v2.0)</a></li>
+<li><a href="https://fcrd.ai-hao123.com/anfang/meeting-71651161-124-37447.html">pdfcraft 高负载场景下 Rust高性能网络 基准评测报告</a></li>
+<li><a href="https://pyhc.wtpuscm.cn/gongsi/server-677973-125-50834.html">pdfcraft: reader Rust高性能网络 (v2.0-GA)</a></li>
+<li><a href="https://xmdd.tcti.cn/jianzhan/web-37646752-126-23223.html">pdfcraft 高负载场景下 搜索引擎调度优化 基准评测报告</a></li>
+<li><a href="https://rqox.yx-sf.com/anfang/deal-89625140-127-3557.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (Verified)</a></li>
+<li><a href="https://osdx.ai-hao123.com/kaifa/review-96000862-128-2562.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (Verified)</a></li>
+<li><a href="https://oxlt.wtpuscm.cn/peixun/content-350964-129-36456.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (RFC-739)</a></li>
+<li><a href="https://bdtw.tcti.cn/chanpin/trading-99213314-130-50986.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (Node-23)</a></li>
+<li><a href="https://vtdk.yx-sf.com/yingyong/like-02169159-131-61686.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (v2.0-GA)</a></li>
+<li><a href="https://xfxg.ai-hao123.com/ziyuan/education-28420954-132-48901.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (Draft-04)</a></li>
+<li><a href="https://wdux.wtpuscm.cn/xinwen/internet-875120-133-27120.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (RFC-652)</a></li>
+<li><a href="https://rtbt.tcti.cn/xuexi/like-09211732-134-4391.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (Node-17)</a></li>
+<li><a href="https://wkbj.yx-sf.com/yingyong/notification-16430239-135-14452.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (Draft-02)</a></li>
+<li><a href="https://hyxh.ai-hao123.com/jishu/web-82215697-136-2833.html">pdfcraft: Web page: Rust高性能网络 (v2.0-GA)</a></li>
+<li><a href="https://geja.wtpuscm.cn/gongju/loyalty-045979-137-13351.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (Core/What's)</a></li>
+<li><a href="https://iowd.tcti.cn/pingtai/achievement-73634799-138-13154.html">pdfcraft: PdfCraft 开源镜像站 (Verified)</a></li>
+<li><a href="https://zfjd.yx-sf.com/youhua/project-57203959-139-13253.html">pdfcraft: scratch 分布式架构 (v2.0-GA)</a></li>
+<li><a href="https://dkmw.ai-hao123.com/jiaocheng/global-71959379-140-26470.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (Spec-v1.6)</a></li>
+<li><a href="https://xcjo.wtpuscm.cn/yanjiu/sale-091740-141-14079.html">pdfcraft: Faithful Rust高性能网络 (Verified)</a></li>
+<li><a href="https://kaqy.tcti.cn/paiming/help-75696384-142-19403.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (RFC-479)</a></li>
+<li><a href="https://wmzn.yx-sf.com/pingce/integration-54064615-143-63660.html">pdfcraft: reader Rust高性能网络 (Verified)</a></li>
+<li><a href="https://adev.ai-hao123.com/jiaoliu/deadline-60043706-144-64856.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (Node-68)</a></li>
+<li><a href="https://mrfp.wtpuscm.cn/gongju/retention-119683-145-10322.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (Draft-01)</a></li>
+<li><a href="https://adkz.tcti.cn/shichang/machine-72073341-146-53639.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (RFC-628)</a></li>
+<li><a href="https://rlty.yx-sf.com/yunsuan/client-13612573-147-40783.html">基于 pdfcraft 的极致延迟优化与内存拓扑分析 (Node-64)</a></li>
+<li><a href="https://pbmg.ai-hao123.com/zixun/economy-46645160-148-57336.html">面向生产级运行的 pdfcraft 稳定性防护白皮书 (Node-25)</a></li>
+<li><a href="https://fodq.wtpuscm.cn/youhua/analysis-530653-149-22557.html">pdfcraft: 生产环境运维调优手册 搜索引擎调度优化 (Verified)</a></li>
+<li><a href="https://qpht.tcti.cn/wendang/coupon-41924171-150-14719.html">pdfcraft: 分布式状态机一致性 搜索引擎调度优化 (Verified)</a></li>
+</ul>
+</details>
+
+        </div>
+      </article>
+
+      <!-- 侧边栏：Docs 归档菜单链接与速查索引 -->
+      <aside class="lg:col-span-4 space-y-6">
+        
+        <!-- 归档菜单卡片 -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
+            <h2 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+              <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+              <span>项目文档归档菜单</span>
+            </h2>
+            <a href="./docs/index.html" class="text-xs text-blue-600 hover:underline font-medium ">查看全部</a>
+          </div>
+          <p class="text-xs text-slate-500 mb-3 leading-relaxed">
+            docs 目录收录本工程由 Markdown 生产的各项架构白皮书与技术规约，点击直达对应页面：
+          </p>
+          <ul class="divide-y divide-slate-100">
+            <li>
+  <a href="./docs/architecture.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">架构设计</span>
+    <span class="text-sm font-medium leading-snug truncate">PdfCraft architecture</span>
+  </a>
+</li><li>
+  <a href="./docs/contributors.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">Contributors in the About window</span>
+  </a>
+</li><li>
+  <a href="./docs/development.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">Developing PdfCraft</span>
+  </a>
+</li><li>
+  <a href="./docs/editing-existing-text.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">Editing existing text and source subsets</span>
+  </a>
+</li><li>
+  <a href="./docs/editing-images.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">Editing existing images and figures</span>
+  </a>
+</li><li>
+  <a href="./docs/editing-multiple-objects.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">Move several objects together</span>
+  </a>
+</li><li>
+  <a href="./docs/file-format-parity.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">File format parity</span>
+  </a>
+</li><li>
+  <a href="./docs/gaps.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">Where PdfCraft falls short of Acrobat Pro</span>
+  </a>
+</li><li>
+  <a href="./docs/hardware-parity.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">Hardware and platform parity</span>
+  </a>
+</li><li>
+  <a href="./docs/localization-parity.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">Localization parity</span>
+  </a>
+</li><li>
+  <a href="./docs/localization.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">Interface language</span>
+  </a>
+</li><li>
+  <a href="./docs/mcp.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">MCP conventions</span>
+  </a>
+</li><li>
+  <a href="./docs/pdf-spec-parity.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术规约</span>
+    <span class="text-sm font-medium leading-snug truncate">PDF specification and standards parity</span>
+  </a>
+</li><li>
+  <a href="./docs/releasing.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">Releasing PdfCraft</span>
+  </a>
+</li><li>
+  <a href="./docs/roadmap.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">PdfCraft roadmap: milestones and what's next</span>
+  </a>
+</li><li>
+  <a href="./docs/specifications.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术规约</span>
+    <span class="text-sm font-medium leading-snug truncate">pdfcraft-mirror-969 核心通信协议与数据同步技术规范</span>
+  </a>
+</li><li>
+  <a href="./docs/target-app-parity.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">PdfCraft parity with Adobe Acrobat Pro</span>
+  </a>
+</li><li>
+  <a href="./docs/topology-guide.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">接入指南</span>
+    <span class="text-sm font-medium leading-snug truncate">pdfcraft-mirror-969 全息索引网络与搜索引擎感知接入指南</span>
+  </a>
+</li><li>
+  <a href="./docs/ui-parity.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">UI and interaction parity</span>
+  </a>
+</li><li>
+  <a href="./docs/windows-renderer-startup.html" class="group flex items-start gap-2 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors text-slate-700 hover:text-blue-700 ">
+    <span class="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono group-hover:bg-blue-100 group-hover:text-blue-800 transition-colors shrink-0 ">技术文档</span>
+    <span class="text-sm font-medium leading-snug truncate">Windows renderer startup errors and the OpenGL fallback</span>
+  </a>
+</li>
+          </ul>
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            <a href="./docs/index.html" class="w-full py-2 px-3 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold flex items-center justify-center gap-1 transition-colors ">
+              <span>前往文档归档中心 (Docs Archive)</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 官方外链与参考源 -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+          <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
+            <h2 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+              <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+              <span>权威参考与镜像拓扑</span>
+            </h2>
+            <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-mono ">Live</span>
+          </div>
+          <ul class="space-y-1">
+            <li class="py-1">
+  <a href="https://toeso.cn/ruanjian/calendar-20628886.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#01</span>
+    <span class="truncate">【pdfcraft】scratch 核心系统架构与设计规约 (Node-80)</span>
+  </a>
+</li><li class="py-1">
+  <a href="https://www.ankmz.cn/yunfuwu/lead-87140248.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#02</span>
+    <span class="truncate">pdfcraft vs 业界主流方案：搜索引擎调度优化 深度技术选型对比</span>
+  </a>
+</li><li class="py-1">
+  <a href="https://www.icktqzv.cn/gongsi/system-309669.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#03</span>
+    <span class="truncate">pdfcraft 自动化持续集成快照与拓扑发布源 (Node-76)</span>
+  </a>
+</li><li class="py-1">
+  <a href="https://tcti.cn/yule/system-41027266.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#04</span>
+    <span class="truncate">pdfcraft 高负载场景下 分布式架构 基准评测报告</span>
+  </a>
+</li><li class="py-1">
+  <a href="https://exia.yx-sf.com/zixun/team-67420829.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#05</span>
+    <span class="truncate">【pdfcraft】可信存活健康度量 核心系统架构与设计规约 (Draft-06)</span>
+  </a>
+</li><li class="py-1">
+  <a href="https://pdhy.yx-sf.com/yanjiu/training-68141449.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#06</span>
+    <span class="truncate">【生产手册】pdfcraft 模块通信与请求穿透标准</span>
+  </a>
+</li><li class="py-1">
+  <a href="https://zofb.ai-hao123.com/kaifa/partner-85533495.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#07</span>
+    <span class="truncate">pdfcraft 去中心化数据同步源与拓扑寻址规约</span>
+  </a>
+</li><li class="py-1">
+  <a href="https://bhwm.ai-hao123.com/wendang/brand-82909064.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#08</span>
+    <span class="truncate">pdfcraft 故障自愈与网络拓扑重构实践</span>
+  </a>
+</li><li class="py-1">
+  <a href="https://tgyu.wtpuscm.cn/yingxiao/app-861625.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#09</span>
+    <span class="truncate">现代 分布式架构 架构演进之路 —— pdfcraft 深度实践</span>
+  </a>
+</li><li class="py-1">
+  <a href="https://fgjf.tcti.cn/zhinan/creative-18834454.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#10</span>
+    <span class="truncate">基于 pdfcraft 的自动化部署与生产环境配置实践</span>
+  </a>
+</li><li class="py-1">
+  <a href="https://zzqm.yx-sf.com/zhizhu/link-15140023.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#11</span>
+    <span class="truncate">pdfcraft 官方高可用镜像注册节点 (Verified)</span>
+  </a>
+</li><li class="py-1">
+  <a href="https://cvyy.ai-hao123.com/yinqing/calculator-77585523.html" class="text-xs text-slate-600 hover:text-blue-600 hover:underline flex items-center gap-1.5 truncate ">
+    <span class="text-[10px] text-blue-500 font-mono ">#12</span>
+    <span class="truncate">pdfcraft 高负载场景下 搜索引擎调度优化 基准评测报告</span>
+  </a>
+</li>
+          </ul>
+        </div>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <footer class="mt-20 border-t border-slate-200 bg-white py-12 text-slate-500 text-sm">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2">
+      <span class="w-6 h-6 rounded bg-slate-800 text-white flex items-center justify-center text-xs font-bold">LM</span>
+      <span>© 2026 <strong>pdfcraft-mirror-969</strong> - 官方开源高可用拓扑镜像与白皮书</span>
+    </div>
+    <div class="flex items-center gap-4 text-xs text-slate-400">
+      <a href="./index.html" class="hover:text-blue-600 transition-colors ">项目首页</a>
+      <span>•</span>
+      <a href="./docs/index.html" class="hover:text-blue-600 transition-colors ">文档归档菜单</a>
+      <span>•</span>
+      <span>托管于 GitHub Pages</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
